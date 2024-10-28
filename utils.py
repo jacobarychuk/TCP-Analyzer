@@ -2,7 +2,7 @@ import sys
 
 def get_endianness(global_header):
 
-	magic_number = int.from_bytes(global_header[:4], byteorder='big') # Extract the magic_number field and convert to an int with big-endian byte ordering
+	magic_number = int.from_bytes(global_header[:4], byteorder='big') # Extract magic_number from global header
 
 	if magic_number == 0xa1b2c3d4: # File was written in big-endian format
 		return 'big'

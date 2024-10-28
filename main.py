@@ -24,8 +24,8 @@ def main():
 			incl_len = int.from_bytes(packet_header[8:12], byteorder=endianness) # Extract incl_len from packet header
 			packet_data = f.read(incl_len) # Read packet data
 
-			source_address = socket.inet_ntoa(packet_data[26:30]) # Extract source_address from packet data
-			destination_address = socket.inet_ntoa(packet_data[30:34]) # Extract destination_address from packet data
+			source_address = socket.inet_ntoa(packet_data[26:30]) # Extract source address from packet data
+			destination_address = socket.inet_ntoa(packet_data[30:34]) # Extract destination address from packet data
 			print(f"Packet {packet_number}:")
 			print("Source Address:", source_address)
 			print("Destination Address:", destination_address)
