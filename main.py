@@ -1,5 +1,7 @@
 import sys
 import utils
+import socket
+
 
 def main():
 
@@ -13,7 +15,23 @@ def main():
 
 		global_header = f.read(24) # Read the first 24 bytes to get the global header
 		endianness = utils.get_endianness(global_header)
-		print("Endianness:", endianness)
+
+		packet_number = 1
+
+		# Read packet headers until EOF is reached
+		for packet_header in iter(lambda: f.read(16), b''):			
+
+			incl_len = int.from_bytes(packet_header[8:12], byteorder=endianness) # Extract incl_len from packet header
+			packet_data = f.read(incl_len) # Read packet data
+
+			source_address = socket.inet_ntoa(packet_data[26:30]) # Extract source_address from packet data
+			destination_address = socket.inet_ntoa(packet_data[30:34]) # Extract destination_address from packet data
+			print(f"Packet {packet_number}:")
+			print("Source Address:", source_address)
+			print("Destination Address:", destination_address)
+
+			packet_number += 1
+
 
 if __name__ == "__main__":
 	main()
