@@ -31,6 +31,13 @@ def main():
 			print("Source Address:", source_address)
 			print("Destination Address:", destination_address)
 
+			ihl_bytes = (packet_data[ipv4_header_offset] & 0x0F) * 4 # Extract the length of IPv4 header from packet data and convert to bytes
+			tcp_header_offset = 14 + ihl_bytes
+			source_port = int.from_bytes(packet_data[tcp_header_offset:tcp_header_offset+2], byteorder='big') # Extract source port from packet data
+			destination_port = int.from_bytes(packet_data[tcp_header_offset+2:tcp_header_offset+4], byteorder='big') # Extract destination port from packet data
+			print("Source Port:", source_port)
+			print("Destination Port:", destination_port)
+
 			packet_number += 1
 
 
