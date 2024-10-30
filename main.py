@@ -1,6 +1,7 @@
 import sys
 from utils import *
 import socket
+from connection_info import ConnectionInfo
 
 
 def main():
@@ -17,8 +18,6 @@ def main():
 
 		global_header = f.read(24) # Read the first 24 bytes to get the global header
 		endianness = get_endianness(global_header)
-
-		connection_number = 1
 
 		# Read packet headers until EOF is reached
 		for packet_header in iter(lambda: f.read(16), b''):			
@@ -41,16 +40,21 @@ def main():
 			else:
 				# Store new bidirectional connections in the direction observed first
 				connection_key = (source_address, source_port, destination_address, destination_port)
-				connections[connection_key] = connection_number
-				connection_number += 1
+				connections[connection_key] = ConnectionInfo()
+
+			flags = get_flags(packet_data)
+			connections[connection_key].update_status(flags)
 
 	# Print all connections
-	for connection_key, number in connections.items():
-		print(f"Connection {number}:")
+	n = 1
+	for connection_key, connection_info in connections.items():
+		print(f"Connection {n}:")
 		print("Source address:", connection_key[0])
 		print("Destination address:", connection_key[2])
 		print("Source port:", connection_key[1])
 		print("Destination port:", connection_key[3])
+		print("Status:", connection_info.get_status())
+		n += 1
 
 
 if __name__ == "__main__":

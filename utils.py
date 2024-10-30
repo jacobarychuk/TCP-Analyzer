@@ -40,3 +40,12 @@ def get_destination_port(packet_data):
 	ihl_bytes = (packet_data[IPV4_HEADER_OFFSET] & 0x0F) * 4
 	tcp_header_offset = 14 + ihl_bytes
 	return int.from_bytes(packet_data[tcp_header_offset+2:tcp_header_offset+4], byteorder='big')
+
+def get_flags(packet_data):
+	"""Extract, interpret, and return the flags from the TCP header in the packet data."""
+	ihl_bytes = (packet_data[IPV4_HEADER_OFFSET] & 0x0F) * 4
+	tcp_header_offset = 14 + ihl_bytes
+	flags = int.from_bytes(packet_data[tcp_header_offset+12:tcp_header_offset+14], byteorder='big') # Mask to get the lower 9 bits
+	flag_names = ["FIN", "SYN", "RST", "PSH", "ACK", "URG", "ECE", "CWR", "NS"]
+	flag_status = {flag_names[i]: bool(flags & (1 << i)) for i in range(9)} # Map each flag name to its corresponding bit
+	return flag_status
