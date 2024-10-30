@@ -31,9 +31,16 @@ def main():
 			source_port = get_source_port(packet_data)
 			destination_port = get_destination_port(packet_data)
 
-			# Identify unique connections
-			connection_key = (source_address, source_port, destination_address, destination_port)
-			if connection_key not in connections:
+			# Identify unique bidirectional connections
+			if (source_address, source_port, destination_address, destination_port) in connections:
+				# Use the key as is
+				connection_key = (source_address, source_port, destination_address, destination_port)
+			elif (destination_address, destination_port, source_address, source_port) in connections:
+				# Use the key where source and destination are swapped (preserve direction observed first)
+				connection_key = (destination_address, destination_port, source_address, source_port)
+			else:
+				# Store new bidirectional connections in the direction observed first
+				connection_key = (source_address, source_port, destination_address, destination_port)
 				connections[connection_key] = connection_number
 				connection_number += 1
 
