@@ -2,6 +2,7 @@ import sys
 from utils import *
 import socket
 from connection_info import ConnectionInfo
+import config
 
 
 def main():
@@ -17,12 +18,12 @@ def main():
 	with open(filename, 'rb') as f: # Open packet capture file for reading in binary mode
 
 		global_header = f.read(24) # Read the first 24 bytes to get the global header
-		endianness = get_endianness(global_header)
+		config.endianness = get_endianness(global_header) # Set endianness
 
 		# Read packet headers until EOF is reached
 		for packet_header in iter(lambda: f.read(16), b''):			
 
-			incl_len = int.from_bytes(packet_header[8:12], byteorder=endianness) # Extract incl_len from packet header
+			incl_len = int.from_bytes(packet_header[8:12], byteorder=config.endianness) # Extract incl_len from packet header
 			packet_data = f.read(incl_len) # Read packet data
 
 			source_address = get_source_address(packet_data)
