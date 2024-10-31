@@ -46,6 +46,7 @@ def main():
 			connections[connection_key].add_packet(packet_header, packet_data)
 
 	# Print all connections
+	print("Total number of connections:", len(connections))
 	n = 1
 	for connection_key, connection_info in connections.items():
 		print(f"Connection {n}:")
