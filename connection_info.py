@@ -1,3 +1,5 @@
+from utils import *
+
 class ConnectionInfo:
 
 	def __init__(self):
@@ -5,6 +7,11 @@ class ConnectionInfo:
 		self.syn_count = 0
 		self.fin_count = 0
 		self.reset = False
+
+	def add_packet(self, packet_header, packet_data):
+		"""Process a packet by retrieving the flags from the TCP header and updating the status of the connection."""
+		flags = get_flags(packet_data)
+		self.update_status(flags)
 
 	def update_status(self, flags):
 		"""Update the connection status based on the flags in the TCP header."""

@@ -42,8 +42,7 @@ def main():
 				connection_key = (source_address, source_port, destination_address, destination_port)
 				connections[connection_key] = ConnectionInfo()
 
-			flags = get_flags(packet_data)
-			connections[connection_key].update_status(flags)
+			connections[connection_key].add_packet(packet_header, packet_data)
 
 	# Print all connections
 	n = 1
