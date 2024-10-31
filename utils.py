@@ -48,3 +48,9 @@ def get_flags(packet_data):
 	flag_names = ["FIN", "SYN", "RST", "PSH", "ACK", "URG", "ECE", "CWR", "NS"]
 	flag_status = {flag_names[i]: bool(flags & (1 << i)) for i in range(9)} # Map each flag name to its corresponding bit
 	return flag_status
+
+def get_timestamp(packet_header):
+	"""Return the timestamp of the packet in seconds."""
+	ts_sec = int.from_bytes(packet_header[:4], byteorder=config.endianness) # Extract ts_sec from packet header
+	ts_usec = int.from_bytes(packet_header[4:8], byteorder=config.endianness) # Extract ts_usec from packet header
+	return ts_sec + (ts_usec / 1000000)

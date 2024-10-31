@@ -54,6 +54,10 @@ def main():
 		print("Source port:", connection_key[1])
 		print("Destination port:", connection_key[3])
 		print("Status:", connection_info.get_status())
+		if connection_info.get_end_time() is not None:
+			print(f"Start time: {connection_info.get_start_time()} seconds")
+			print(f"End time: {connection_info.get_end_time()} seconds")
+			print(f"Duration: {connection_info.get_duration()} seconds")
 		n += 1
 
 
