@@ -50,8 +50,7 @@ def main():
 
 	# Print all connections
 	print("Total number of connections:", len(connections))
-	n = 1
-	for connection_key, connection_info in connections.items():
+	for n, (connection_key, connection_info) in enumerate(connections.items(), start=1):
 		print(f"Connection {n}:")
 		print("Source address:", connection_key[0])
 		print("Destination address:", connection_key[2])
@@ -68,7 +67,6 @@ def main():
 			print("Number of data bytes sent from source to destination:", connection_info.get_byte_count_source_destination())
 			print("Number of data bytes sent from destination to source:", connection_info.get_byte_count_destination_source())
 			print("Total number of data bytes:", connection_info.get_byte_count())
-		n += 1
 
 
 if __name__ == "__main__":
