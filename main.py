@@ -83,6 +83,12 @@ def main():
 		print(f"Minimum duration: {round(minimum_duration, 6)} seconds")
 		print(f"Average duration: {round(average_duration, 6)} seconds")
 		print(f"Maximum duration: {round(maximum_duration, 6)} seconds")
+		minimum_packet_count = min(connection_info.get_packet_count() for connection_info in complete_connections)
+		average_packet_count = sum(connection_info.get_packet_count() for connection_info in complete_connections) / len(complete_connections)
+		maximum_packet_count = max(connection_info.get_packet_count() for connection_info in complete_connections)
+		print("Minimum number of packets (sent/received):", minimum_packet_count)
+		print("Average number of packets (sent/received):", round(average_packet_count, 6))
+		print("Maximum number of packets (sent/received):", maximum_packet_count)
 
 
 if __name__ == "__main__":
