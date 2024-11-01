@@ -75,6 +75,15 @@ def main():
 	print("Number of reset connections:", len(reset_connections))
 	print("Number of connections still open when the trace capture ended:", len(connections) - len(complete_connections))
 
+	# Print summary of complete connections
+	if len(complete_connections) > 0:
+		minimum_duration = min(connection_info.get_duration() for connection_info in complete_connections)
+		average_duration = sum(connection_info.get_duration() for connection_info in complete_connections) / len(complete_connections) 
+		maximum_duration = max(connection_info.get_duration() for connection_info in complete_connections)
+		print(f"Minimum duration: {round(minimum_duration, 6)} seconds")
+		print(f"Average duration: {round(average_duration, 6)} seconds")
+		print(f"Maximum duration: {round(maximum_duration, 6)} seconds")
+
 
 if __name__ == "__main__":
 	main()
