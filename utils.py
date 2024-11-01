@@ -54,3 +54,11 @@ def get_timestamp(packet_header):
 	ts_sec = int.from_bytes(packet_header[:4], byteorder=config.endianness) # Extract ts_sec from packet header
 	ts_usec = int.from_bytes(packet_header[4:8], byteorder=config.endianness) # Extract ts_usec from packet header
 	return ts_sec + (ts_usec / 1000000)
+
+def get_message_length(packet_data):
+	"""Calculate and return the length of the message in bytes."""
+	datagram_length_bytes = int.from_bytes(packet_data[config.IPV4_HEADER_OFFSET+2:config.IPV4_HEADER_OFFSET+4], byteorder='big')
+	ihl_bytes = (packet_data[config.IPV4_HEADER_OFFSET] & 0x0F) * 4
+	tcp_header_offset = 14 + ihl_bytes
+	tcp_header_length_bytes = ((packet_data[tcp_header_offset+12] & 0xF0) >> 4) * 4
+	return datagram_length_bytes - ihl_bytes - tcp_header_length_bytes

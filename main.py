@@ -65,6 +65,9 @@ def main():
 			print("Number of packets sent from source to destination:", connection_info.get_packet_count_source_destination())
 			print("Number of packets sent from destination to source:", connection_info.get_packet_count_destination_source())
 			print("Total number of packets:", connection_info.get_packet_count())
+			print("Number of data bytes sent from source to destination:", connection_info.get_byte_count_source_destination())
+			print("Number of data bytes sent from destination to source:", connection_info.get_byte_count_destination_source())
+			print("Total number of data bytes:", connection_info.get_byte_count())
 		n += 1
 
 
