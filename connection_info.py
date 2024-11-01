@@ -11,8 +11,10 @@ class ConnectionInfo:
 		self.reset = False
 		self.start_time = None
 		self.end_time = None
+		self.packet_count_source_destination = 0
+		self.packet_count_destination_source = 0
 
-	def add_packet(self, packet_header, packet_data):
+	def add_packet(self, packet_header, packet_data, direction):
 		"""Process a packet and update the connection information."""
 		# Retrieve flags from TCP header and update connection status
 		flags = get_flags(packet_data)
@@ -25,6 +27,9 @@ class ConnectionInfo:
 			self.start_time = timestamp - ConnectionInfo.capture_start_time	
 		if flags["FIN"]:
 			self.end_time = timestamp - ConnectionInfo.capture_start_time
+		# Update packet counts based on direction
+		if direction == 'forward': self.packet_count_source_destination += 1
+		if direction == 'reverse': self.packet_count_destination_source += 1
 
 	def update_status(self, flags):
 		"""Update the connection status based on the flags in the TCP header."""
@@ -53,3 +58,15 @@ class ConnectionInfo:
 		if self.start_time is None or self.end_time is None:
 			return None
 		return round(self.end_time - self.start_time, 6)
+
+	def get_packet_count_source_destination(self):
+		"""Return the number of packets sent from the source to the destination."""
+		return self.packet_count_source_destination
+
+	def get_packet_count_destination_source(self):
+		"""Return the number of packets sent from the destination to the source."""
+		return self.packet_count_destination_source
+
+	def get_packet_count(self):
+		"""Return the total number of packets."""
+		return self.packet_count_source_destination + self.packet_count_destination_source

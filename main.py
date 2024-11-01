@@ -35,15 +35,18 @@ def main():
 			if (source_address, source_port, destination_address, destination_port) in connections:
 				# Use the key as is
 				connection_key = (source_address, source_port, destination_address, destination_port)
+				direction = 'forward'
 			elif (destination_address, destination_port, source_address, source_port) in connections:
 				# Use the key where source and destination are swapped (preserve direction observed first)
 				connection_key = (destination_address, destination_port, source_address, source_port)
+				direction = 'reverse'
 			else:
 				# Store new bidirectional connections in the direction observed first
 				connection_key = (source_address, source_port, destination_address, destination_port)
 				connections[connection_key] = ConnectionInfo()
+				direction = 'forward'
 
-			connections[connection_key].add_packet(packet_header, packet_data)
+			connections[connection_key].add_packet(packet_header, packet_data, direction)
 
 	# Print all connections
 	print("Total number of connections:", len(connections))
@@ -59,6 +62,9 @@ def main():
 			print(f"Start time: {connection_info.get_start_time()} seconds")
 			print(f"End time: {connection_info.get_end_time()} seconds")
 			print(f"Duration: {connection_info.get_duration()} seconds")
+			print("Number of packets sent from source to destination:", connection_info.get_packet_count_source_destination())
+			print("Number of packets sent from destination to source:", connection_info.get_packet_count_destination_source())
+			print("Total number of packets:", connection_info.get_packet_count())
 		n += 1
 
 
