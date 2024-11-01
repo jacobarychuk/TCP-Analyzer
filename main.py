@@ -68,6 +68,13 @@ def main():
 			print("Number of data bytes sent from destination to source:", connection_info.get_byte_count_destination_source())
 			print("Total number of data bytes:", connection_info.get_byte_count())
 
+	# Print summary of connection states
+	complete_connections = [connection_info for connection_info in connections.values() if connection_info.get_end_time() is not None]
+	reset_connections = [connection_info for connection_info in connections.values() if connection_info.reset]
+	print("Number of complete connections:", len(complete_connections))
+	print("Number of reset connections:", len(reset_connections))
+	print("Number of connections still open when the trace capture ended:", len(connections) - len(complete_connections))
+
 
 if __name__ == "__main__":
 	main()
