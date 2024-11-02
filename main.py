@@ -51,7 +51,7 @@ def main():
 	# Print all connections
 	print("Total number of connections:", len(connections))
 	for n, (connection_key, connection_info) in enumerate(connections.items(), start=1):
-		print(f"Connection {n}:")
+		print(f"\nConnection {n}:")
 		print("Source address:", connection_key[0])
 		print("Destination address:", connection_key[2])
 		print("Source port:", connection_key[1])
@@ -71,7 +71,7 @@ def main():
 	# Print summary of connection states
 	complete_connections = [connection_info for connection_info in connections.values() if connection_info.get_end_time() is not None]
 	reset_connections = [connection_info for connection_info in connections.values() if connection_info.reset]
-	print("Number of complete connections:", len(complete_connections))
+	print("\nNumber of complete connections:", len(complete_connections))
 	print("Number of reset connections:", len(reset_connections))
 	print("Number of connections still open when the trace capture ended:", len(connections) - len(complete_connections))
 
@@ -80,20 +80,20 @@ def main():
 		minimum_duration = min(connection_info.get_duration() for connection_info in complete_connections)
 		average_duration = sum(connection_info.get_duration() for connection_info in complete_connections) / len(complete_connections) 
 		maximum_duration = max(connection_info.get_duration() for connection_info in complete_connections)
-		print(f"Minimum duration: {round(minimum_duration, 6)} seconds")
+		print(f"\nMinimum duration: {round(minimum_duration, 6)} seconds")
 		print(f"Average duration: {round(average_duration, 6)} seconds")
 		print(f"Maximum duration: {round(maximum_duration, 6)} seconds")
 		minimum_packet_count = min(connection_info.get_packet_count() for connection_info in complete_connections)
 		average_packet_count = sum(connection_info.get_packet_count() for connection_info in complete_connections) / len(complete_connections)
 		maximum_packet_count = max(connection_info.get_packet_count() for connection_info in complete_connections)
-		print("Minimum number of packets (sent/received):", minimum_packet_count)
+		print("\nMinimum number of packets (sent/received):", minimum_packet_count)
 		print("Average number of packets (sent/received):", round(average_packet_count, 6))
 		print("Maximum number of packets (sent/received):", maximum_packet_count)
 		window_sizes = [window_size for connection_info in complete_connections for window_size in connection_info.window_sizes]
 		minimum_window_size = min(window_sizes)
 		average_window_size = sum(window_sizes) / len(window_sizes)
 		maximum_window_size = max(window_sizes)
-		print(f"Minimum window size: {minimum_window_size} bytes")
+		print(f"\nMinimum window size: {minimum_window_size} bytes")
 		print(f"Average window size: {round(average_window_size, 6)} bytes")
 		print(f"Maximum window size: {maximum_window_size} bytes")
 
