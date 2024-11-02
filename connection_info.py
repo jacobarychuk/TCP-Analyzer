@@ -15,6 +15,7 @@ class ConnectionInfo:
 		self.packet_count_destination_source = 0
 		self.byte_count_source_destination = 0
 		self.byte_count_destination_source = 0
+		self.window_sizes = []
 
 	def add_packet(self, packet_header, packet_data, direction):
 		"""Process a packet and update the connection information."""
@@ -36,6 +37,9 @@ class ConnectionInfo:
 		if direction == 'reverse':
 			self.packet_count_destination_source += 1
 			self.byte_count_destination_source += get_message_length(packet_data)
+		# Retrieve window size and store in list
+		window_size = get_window_size(packet_data)
+		self.window_sizes.append(window_size)
 
 	def update_status(self, flags):
 		"""Update the connection status based on the flags in the TCP header."""

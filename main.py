@@ -89,6 +89,13 @@ def main():
 		print("Minimum number of packets (sent/received):", minimum_packet_count)
 		print("Average number of packets (sent/received):", round(average_packet_count, 6))
 		print("Maximum number of packets (sent/received):", maximum_packet_count)
+		window_sizes = [window_size for connection_info in complete_connections for window_size in connection_info.window_sizes]
+		minimum_window_size = min(window_sizes)
+		average_window_size = sum(window_sizes) / len(window_sizes)
+		maximum_window_size = max(window_sizes)
+		print(f"Minimum window size: {minimum_window_size} bytes")
+		print(f"Average window size: {round(average_window_size, 6)} bytes")
+		print(f"Maximum window size: {maximum_window_size} bytes")
 
 
 if __name__ == "__main__":

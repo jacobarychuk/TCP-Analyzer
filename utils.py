@@ -62,3 +62,9 @@ def get_message_length(packet_data):
 	tcp_header_offset = 14 + ihl_bytes
 	tcp_header_length_bytes = ((packet_data[tcp_header_offset+12] & 0xF0) >> 4) * 4
 	return datagram_length_bytes - ihl_bytes - tcp_header_length_bytes
+
+def get_window_size(packet_data):
+	"""Extract and return the window size from the packet data."""
+	ihl_bytes = (packet_data[config.IPV4_HEADER_OFFSET] & 0x0F) * 4
+	tcp_header_offset = 14 + ihl_bytes
+	return int.from_bytes(packet_data[tcp_header_offset+14:tcp_header_offset+16], byteorder='big')
