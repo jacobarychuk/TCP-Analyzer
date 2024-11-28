@@ -26,7 +26,7 @@ def get_destination_address(packet_data):
 def get_tcp_header_offset(packet_data):
 	"Calculate and return the offset of the TCP header."
 	ip_header_length_bytes = (packet_data[config.IPV4_HEADER_OFFSET] & 0x0F) * 4
-	return ip_header_length_bytes + 14
+	return config.IPV4_HEADER_OFFSET + ip_header_length_bytes
 
 def get_source_port(packet_data):
 	"""Extract and return the source port from the packet data."""
