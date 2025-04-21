@@ -1,0 +1,7 @@
+[project]
+name = "TCP-Analyzer"
+version = "1.0.0"
+dependencies = [
+  "pyside6",
+]
+
